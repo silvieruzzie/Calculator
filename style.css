@@ -1,0 +1,27 @@
+* {
+    border: 1px solid black;
+}
+.display {
+    height: 6rem;
+    width: 10rem;
+    border: 1px solid black;
+}
+.buttonWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 10rem;
+    
+
+}
+button {
+    height: 3rem;
+    width: 3rem;
+    margin: 1px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 10rem;
+    margin: auto;
+}
