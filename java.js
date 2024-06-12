@@ -1,19 +1,12 @@
-let numberA;
-let numberB;
-let operator;
-let result;
-let displayValue;
+let numberA = '';
+let numberB = '';
+let operator = '';
+let result = '';
+let rounded;
+let isOperatorSelected = false;
+let isPointSelected = false;
+let displayValue = document.querySelector('.display');
 
-const one = document.querySelector('.one');
-const two = document.querySelector('.two');
-const three = document.querySelector('.three');
-const four = document.querySelector('.four');
-const five = document.querySelector('.five');
-const six = document.querySelector('.six');
-const seven = document.querySelector('.seven');
-const eight = document.querySelector('.eight');
-const nine = document.querySelector('.nine');
-const zero = document.querySelector('.zero');
 const numbers = document.querySelector('.numbers');
 const operators = document.querySelector('.operators');
 const equal = document.querySelector('.equal');
@@ -23,65 +16,114 @@ const point = document.querySelector('.point');
 //event listeners
 
 numbers.addEventListener('click', function(event) {
-  if (event.target.matches('.number')) {
-    console.log(event.target.textContent);
-    populate(event.target.textContent);
-  }
-});
-
-operators.addEventListener('click', function(event) {
-    if (event.target.matches('.operator')) {
-      populate(event.target.textContent);
-      operator = event.target.textContent;
-      console.log(operator)
+    if (event.target.matches('.number')) {
+//use boolean to store the numbers selected either in the numberA or numberB
+      const value = event.target.textContent;
+      if (isOperatorSelected) {
+        numberB += value;
+      } else {
+        numberA += value;
+      }
+      populate(value);
     }
   });
 
+operators.addEventListener('click', function(event) {
+    if (event.target.matches('.operator')) {
+//if you press another operator before pressing = the calc will evaluate the first two values, return the result followed by the operator selected.
+      if (numberA && isOperatorSelected && numberB ) {
+        result = operate(parseFloat(numberA), operator, parseFloat
+        (numberB));
+        result = parseFloat(result.toFixed(10));
+        displayValue.textContent = '';
+        populate(result);
+        numberA = result.toString();
+        numberB = '';
+        operator = event.target.textContent;
+      };     
+      if (numberA) {
+        operator = event.target.textContent;
+// change the value to the isOperatorSelected variable to true
+        isOperatorSelected = true;
+        populate(operator);
+      }
+    }
+    isPointSelected = false;
+  });
+
 equal.addEventListener('click', function(event) {
-    operate(numberA, operator, numberB);
+if (numberA && operator && numberB) {
+//take the value stored in the numberA/B, turn them into floating point numbers 
+    result = operate(parseFloat(numberA), operator, parseFloat(numberB));
+    result = parseFloat(result.toFixed(10));
+    displayValue.textContent = result;
+//the result gets assigned to numberA turned into a string, can be used for the next operation
+    numberA = result.toString();
+    numberB = '';
+    operator = '';
+    isOperatorSelected = false;
+    isPointSelected = false;
+}
 });
 
 cancel.addEventListener('click', function(event) {
     displayValue.textContent = ' ';
+    numberA = '';
+    numberB = '';
+    operator = '';
+    isOperatorSelected = false;
 });
 
 point.addEventListener('click', function(event) {
-    console.log(event.target.textContent);
-      populate(event.target.textContent);
-})
+//the '.' gets assigned to the value variable.
+    const value = event.target.textContent;
+    if (isPointSelected == true) {
+        
+    } else {
+        if (isOperatorSelected) {
+            numberB += value;
+        } else {
+            numberA += value;
+        }
+        populate(value);
+        isPointSelected = true;
+    }
+});
+    
 
 //functions
 
 function add(a, b) {
-    result = a + b;
-    console.log(result);
-    populate(result);
-};
-function subtract(a,b) {
-    result = a - b;
-    console.log(result);
-};
-function multiply(a,b) {
-    result = a * b;
-    console.log(result);
-};
+    return a + b;
+}
+function subtract(a, b) {
+    return a - b;
+}
+function multiply(a, b) {
+    return a * b;
+}
 function divide(a, b) {
-    result = a / b;
-    console.log(result);
-};
-
+    if(numberA && operator && (numberB == '0')) {
+        displayValue.textContent = 'Don\'t do dat'
+    } else {
+        return a / b;
+    }    
+}
 function populate(value) {
-displayValue = document.querySelector('.display')
-displayValue.textContent += value;
-};
+    displayValue.textContent += value;
+}
 
-function operate(numberA, operator, numberB) {
-if (operator === '+') {
-    add(numberA,numberB);
-} else if (operator === '-') {
-    subtract(numberA,numberB);
-} else if (operator === '*') {
-    multiply(numberA,numberB);
-} else if (operator === '/') {
-    divide(numberA,numberB);
-}};
+function operate(a, operator, b) {
+    switch (operator) {
+      case '+':
+        return add(a, b);
+      case '-':
+        return subtract(a, b);
+      case '*':
+        return multiply(a, b);
+      case '/':
+        return divide(a, b);
+      default:
+        return null;
+    }
+  }
