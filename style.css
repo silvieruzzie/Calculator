@@ -1,27 +1,55 @@
-* {
+ {
     border: 1px solid black;
 }
 .display {
     height: 6rem;
-    width: 10rem;
+    width: 12rem;
     border: 1px solid black;
 }
 .buttonWrapper {
     display: flex;
-    flex-direction: column;
-    width: 10rem;
-    
+    flex-direction: row;
+    width: 15rem;
 
 }
-button {
+.number {
     height: 3rem;
-    width: 3rem;
+    width: 3.86rem;
     margin: 1px;
 }
 
 .wrapper {
     display: flex;
     flex-direction: column;
-    width: 10rem;
+    width: 20rem;
     margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+.displayWrapper {
+    display: flex;
+}
+
+.ca, .point {
+    width: 3.86rem;
+    height: 3rem;
+    margin: 1px;
+}
+
+.operator {
+    height: 3rem;
+    width: 3.1rem;
+    margin: 1px;
+}
+
+.numbers {
+    display: flex;
+    flex-wrap: wrap;
+}
+.equal {
+    width: 3rem;
+    margin-left: 1px;
+}
+.operators {
+    width : 3rem;
 }
